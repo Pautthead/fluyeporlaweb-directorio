@@ -4,63 +4,364 @@ import Base from '../../layouts/Base.astro';
 
 <Base
   title="Contacto - fluyeporlaweb"
-  description="Cómo contactar con fluyeporlaweb. Email, X y GitHub."
+  description="Contacta con fluyeporlaweb. Formulario de contacto, X y Telegram."
 >
-  <div class="legal-page container">
-    <header class="legal-header">
+  <div class="contacto-page container">
+    <header class="contacto-header">
       <h1>Contacto</h1>
+      <p class="contacto-desc">
+        Usa el formulario para cualquier consulta, error en el directorio o propuesta.
+        Si prefieres algo más inmediato, estamos en X y Telegram.
+      </p>
     </header>
 
-    <div class="prose">
-      <p>
-        Puedes contactarnos por estas vías:
-      </p>
+    <div class="contacto-layout">
+      <div class="contacto-form-wrap">
+        <form id="contact-form" class="contact-form" novalidate>
+          <div class="form-group">
+            <label for="c-name" class="form-label">
+              Nombre <span class="form-required" aria-hidden="true">*</span>
+            </label>
+            <input
+              type="text"
+              id="c-name"
+              name="name"
+              class="form-input"
+              placeholder="Tu nombre o alias"
+              required
+              maxlength="80"
+              autocomplete="name"
+            />
+          </div>
 
-      <ul>
-        <li>
-          <strong>Email:</strong>
-          <a href="mailto:fluyeporlaweb@gmail.com">fluyeporlaweb@gmail.com</a>
-          - Para privacidad, errores de contenido o colaboraciones.
-        </li>
-        <li>
-          <strong>X:</strong>
-          <a href="https://x.com/fluyeporlaweb" target="_blank" rel="noopener noreferrer">@fluyeporlaweb</a>
-          - Para lo demás. DMs abiertos.
-        </li>
-        <li>
-          <strong>GitHub:</strong> abre una issue o PR en el repositorio del proyecto.
-          Es la forma más directa para sugerir cambios en el contenido.
-        </li>
-      </ul>
+          <div class="form-group">
+            <label for="c-subject" class="form-label">
+              Asunto <span class="form-required" aria-hidden="true">*</span>
+            </label>
+            <select id="c-subject" name="subject" class="form-input" required>
+              <option value="">Elige un asunto</option>
+              <option value="Error en una herramienta del directorio">Error en una herramienta del directorio</option>
+              <option value="Propuesta o sugerencia">Propuesta o sugerencia</option>
+              <option value="Consulta sobre el proyecto">Consulta sobre el proyecto</option>
+              <option value="Colaboración o patrocinio">Colaboración o patrocinio</option>
+              <option value="Ejercicio de derechos RGPD">Ejercicio de derechos RGPD</option>
+              <option value="Otro">Otro</option>
+            </select>
+          </div>
 
-      <p>
-        Si quieres enviar una herramienta al directorio, usa
-        <a href="/enviar">la página de envío</a> - es más rápido que el email.
-      </p>
+          <div class="form-group">
+            <label for="c-message" class="form-label">
+              Mensaje <span class="form-required" aria-hidden="true">*</span>
+            </label>
+            <textarea
+              id="c-message"
+              name="message"
+              class="form-input form-textarea"
+              placeholder="Cuéntanos qué necesitas..."
+              required
+              rows="6"
+              maxlength="2000"
+            ></textarea>
+          </div>
 
-      <h2>Tiempo de respuesta</h2>
+          <div id="form-error" class="form-error" role="alert" hidden>
+            Rellena todos los campos obligatorios antes de enviar.
+          </div>
 
-      <p>
-        Email y X: intento responder en 24-48h en días laborables.
-        GitHub: depende de la complejidad del cambio, normalmente menos de una semana.
-      </p>
+          <button type="submit" class="btn-submit">Abrir cliente de correo</button>
+
+          <p class="form-note">
+            Al pulsar el botón se abrirá tu aplicación de correo con el mensaje prefilled.
+            No almacenamos ningún dato hasta que envíes el correo desde tu cliente.
+          </p>
+        </form>
+      </div>
+
+      <aside class="contacto-alt">
+        <h2 class="contacto-alt__title">También puedes encontrarnos en</h2>
+
+        <div class="contacto-channels">
+          <a
+            href="https://x.com/fluyeporlaweb"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="channel-card"
+          >
+            <div class="channel-card__icon">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.734-8.835L1.254 2.25H8.08l4.713 5.936zM17.083 20.25h1.833L7.084 4.126H5.117z"/>
+              </svg>
+            </div>
+            <div>
+              <strong class="channel-card__name">X (Twitter)</strong>
+              <span class="channel-card__handle">@fluyeporlaweb</span>
+              <p class="channel-card__desc">Para lo rápido. DMs abiertos.</p>
+            </div>
+          </a>
+
+          <a
+            href="https://t.me/fluyeporlaweb"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="channel-card"
+          >
+            <div class="channel-card__icon channel-card__icon--tg">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                <path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.96 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/>
+              </svg>
+            </div>
+            <div>
+              <strong class="channel-card__name">Telegram</strong>
+              <span class="channel-card__handle">t.me/fluyeporlaweb</span>
+              <p class="channel-card__desc">Canal de novedades y herramientas.</p>
+            </div>
+          </a>
+        </div>
+
+        <div class="contacto-times">
+          <h3 class="contacto-times__title">Tiempo de respuesta</h3>
+          <p>
+            Formulario y email: 24-48h en días laborables.
+            X y Telegram: normalmente el mismo día.
+          </p>
+        </div>
+      </aside>
     </div>
   </div>
 </Base>
 
+<script>
+  const form = document.getElementById('contact-form') as HTMLFormElement;
+  const errorEl = document.getElementById('form-error') as HTMLElement;
+
+  form?.addEventListener('submit', (e) => {
+    e.preventDefault();
+
+    const name = (document.getElementById('c-name') as HTMLInputElement).value.trim();
+    const subject = (document.getElementById('c-subject') as HTMLSelectElement).value;
+    const message = (document.getElementById('c-message') as HTMLTextAreaElement).value.trim();
+
+    if (!name || !subject || !message) {
+      errorEl.hidden = false;
+      return;
+    }
+
+    errorEl.hidden = true;
+
+    const u = ['fluyeporlaweb', 'gmail.com'].join('@');
+    const body = `Nombre: ${name}\n\n${message}`;
+    window.location.href = `mailto:${u}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+  });
+</script>
+
 <style>
-  .legal-page {
+  .contacto-page {
     padding-top: var(--space-8);
     padding-bottom: var(--space-16);
-    max-width: 760px;
   }
 
-  .legal-header {
-    margin-bottom: var(--space-8);
+  .contacto-header {
+    max-width: 60ch;
+    margin-bottom: var(--space-10);
   }
 
-  .legal-header h1 {
-    font-size: var(--text-3xl);
+  .contacto-header h1 {
+    font-size: var(--text-4xl);
     letter-spacing: -0.02em;
+    margin-bottom: var(--space-3);
+  }
+
+  .contacto-desc {
+    font-size: var(--text-lg);
+    color: var(--color-text-2);
+    line-height: 1.6;
+  }
+
+  .contacto-layout {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-10);
+  }
+
+  @media (min-width: 900px) {
+    .contacto-layout {
+      grid-template-columns: 1fr 300px;
+      align-items: start;
+    }
+  }
+
+  .contact-form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-5);
+  }
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+
+  .form-label {
+    font-size: var(--text-sm);
+    font-weight: 600;
+    color: var(--color-text);
+  }
+
+  .form-required {
+    color: var(--color-brand);
+  }
+
+  .form-input {
+    padding: var(--space-3) var(--space-4);
+    border: 1px solid var(--color-border-2);
+    border-radius: var(--radius);
+    background: var(--color-bg);
+    color: var(--color-text);
+    font-family: var(--font-sans);
+    font-size: var(--text-base);
+    width: 100%;
+    transition: border-color 0.15s;
+  }
+
+  .form-input:focus {
+    outline: none;
+    border-color: var(--color-brand);
+    box-shadow: 0 0 0 3px rgb(22 163 74 / 0.15);
+  }
+
+  .form-textarea {
+    resize: vertical;
+    min-height: 140px;
+  }
+
+  .form-error {
+    padding: var(--space-3) var(--space-4);
+    background: #fee2e2;
+    color: #991b1b;
+    border-radius: var(--radius);
+    font-size: var(--text-sm);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    .form-error {
+      background: #450a0a;
+      color: #fca5a5;
+    }
+  }
+
+  .btn-submit {
+    padding: var(--space-3) var(--space-6);
+    background: var(--color-brand);
+    color: white;
+    border: none;
+    border-radius: var(--radius);
+    font-family: var(--font-sans);
+    font-size: var(--text-base);
+    font-weight: 600;
+    cursor: pointer;
+    align-self: flex-start;
+    transition: background 0.15s;
+  }
+
+  .btn-submit:hover {
+    background: var(--color-brand-dark);
+  }
+
+  .form-note {
+    font-size: var(--text-sm);
+    color: var(--color-text-3);
+    line-height: 1.5;
+  }
+
+  .contacto-alt {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-5);
+  }
+
+  .contacto-alt__title {
+    font-size: var(--text-base);
+    font-weight: 700;
+    color: var(--color-text);
+  }
+
+  .contacto-channels {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+
+  .channel-card {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-3);
+    padding: var(--space-4);
+    background: var(--color-bg-2);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    text-decoration: none !important;
+    color: inherit;
+    transition: border-color 0.15s;
+  }
+
+  .channel-card:hover {
+    border-color: var(--color-brand);
+  }
+
+  .channel-card__icon {
+    width: 40px;
+    height: 40px;
+    border-radius: var(--radius);
+    background: #000;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .channel-card__icon--tg {
+    background: #2AABEE;
+  }
+
+  .channel-card__name {
+    display: block;
+    font-size: var(--text-sm);
+    font-weight: 700;
+    color: var(--color-text);
+    margin-bottom: var(--space-1);
+  }
+
+  .channel-card__handle {
+    display: block;
+    font-size: var(--text-xs);
+    color: var(--color-brand);
+    margin-bottom: var(--space-1);
+  }
+
+  .channel-card__desc {
+    font-size: var(--text-xs);
+    color: var(--color-text-2);
+    line-height: 1.4;
+  }
+
+  .contacto-times {
+    background: var(--color-bg-2);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    padding: var(--space-4);
+  }
+
+  .contacto-times__title {
+    font-size: var(--text-sm);
+    font-weight: 700;
+    margin-bottom: var(--space-2);
+  }
+
+  .contacto-times p {
+    font-size: var(--text-sm);
+    color: var(--color-text-2);
+    line-height: 1.5;
   }
 </style>
