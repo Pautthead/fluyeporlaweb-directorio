@@ -1,7 +1,6 @@
 ---
 import Base from './Base.astro';
 import Breadcrumbs from '../components/Breadcrumbs.astro';
-import AdSlot from '../components/AdSlot.astro';
 import type { CollectionEntry } from 'astro:content';
 
 interface Props {
@@ -70,8 +69,6 @@ const formattedDate = new Date(data.pubDate).toLocaleDateString('es-ES', {
       <div class="prose articulo__content">
         <slot />
       </div>
-
-      <AdSlot slot="inline" />
     </article>
   </div>
 </Base>

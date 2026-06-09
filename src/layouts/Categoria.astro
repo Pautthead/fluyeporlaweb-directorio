@@ -2,7 +2,6 @@
 import Base from './Base.astro';
 import Breadcrumbs from '../components/Breadcrumbs.astro';
 import HerramientaCard from '../components/HerramientaCard.astro';
-import AdSlot from '../components/AdSlot.astro';
 import type { CollectionEntry } from 'astro:content';
 
 interface Props {
@@ -47,9 +46,6 @@ const crumbs = [
       </div>
     )}
 
-    <div class="categoria-ad">
-      <AdSlot slot="footer" />
-    </div>
   </div>
 </Base>
 
@@ -107,7 +103,4 @@ const crumbs = [
     background: var(--color-brand-dark);
   }
 
-  .categoria-ad {
-    margin-top: var(--space-12);
-  }
 </style>

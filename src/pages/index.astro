@@ -2,7 +2,6 @@
 import Base from '../layouts/Base.astro';
 import HerramientaCard from '../components/HerramientaCard.astro';
 import Buscador from '../components/Buscador.astro';
-import AdSlot from '../components/AdSlot.astro';
 import { getCollection } from 'astro:content';
 
 const allTools = await getCollection('herramientas', (e) => e.data.status === 'activo');
@@ -77,10 +76,6 @@ const totalTools = allTools.length;
       </div>
     </section>
   )}
-
-  <div class="container">
-    <AdSlot slot="inline" />
-  </div>
 
   {recent.length > 0 && (
     <section class="recent">

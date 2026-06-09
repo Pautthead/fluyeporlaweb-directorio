@@ -4,7 +4,6 @@ import Breadcrumbs from '../components/Breadcrumbs.astro';
 import Badges from '../components/Badges.astro';
 import Alternativas from '../components/Alternativas.astro';
 import Relacionadas from '../components/Relacionadas.astro';
-import AdSlot from '../components/AdSlot.astro';
 import type { CollectionEntry } from 'astro:content';
 
 interface Props {
@@ -96,17 +95,12 @@ const jsonLd = [
           <slot />
         </div>
 
-        <div class="tool-page__ad-inline">
-          <AdSlot slot="inline" />
-        </div>
-
         <Relacionadas currentSlug={data.slug} tags={data.tags} />
       </article>
 
       <aside class="tool-page__sidebar">
         <div class="sidebar-sticky">
           <Alternativas replaces={data.replaces} replaces_cost={data.replaces_cost} />
-          <AdSlot slot="sidebar" />
           {data.llm_context && (
             <div class="sidebar-meta">
               <h3 class="sidebar-meta__title">Contexto</h3>
@@ -185,10 +179,6 @@ const jsonLd = [
     border-color: var(--color-brand);
     color: var(--color-brand);
     text-decoration: none;
-  }
-
-  .tool-page__ad-inline {
-    margin: var(--space-10) 0;
   }
 
   .sidebar-sticky {
