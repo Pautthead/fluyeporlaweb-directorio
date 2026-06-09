@@ -28,6 +28,8 @@ pricing: "gratis"
 replaces: ["Miro", "Whimsical", "Lucidchart"]
 replaces_cost: "desde 8€/mes por usuario"
 install_complexity: "fácil"
+cover_image_url: "https://opengraph.githubassets.com/1/excalidraw/excalidraw"
+cover_image_alt: "Excalidraw - pizarra open source para diagramas"
 
 # ── SEO Y LLMS ──
 seo_title: "Excalidraw: alternativa gratis a Miro para diagramas"

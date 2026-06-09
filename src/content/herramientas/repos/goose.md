@@ -18,7 +18,7 @@ pricing: "gratis"
 replaces: ["Claude Code", "Cursor", "GitHub Copilot"]
 replaces_cost: "desde 20€/mes"
 install_complexity: "fácil"
-cover_image_url: "https://raw.githubusercontent.com/block/goose/main/docs/assets/goose.png"
+cover_image_url: "https://opengraph.githubassets.com/1/block/goose"
 cover_image_alt: "Goose - agente de IA local open source de Block"
 seo_title: "Goose: agente de IA local gratis, alternativa a Claude Code"
 seo_description: "Guía en español de Goose, el agente de IA open source de Block con 44K estrellas. Instala, ejecuta y depura código solo en tu máquina."

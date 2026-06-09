@@ -28,6 +28,8 @@ pricing: "gratis"
 replaces: ["BrowserStack", "Selenium Grid", "Browserbase"]
 replaces_cost: "desde 199€/mes"
 install_complexity: "fácil"
+cover_image_url: "https://opengraph.githubassets.com/1/microsoft/playwright-mcp"
+cover_image_alt: "Playwright MCP - servidor MCP de Microsoft para automatización web"
 
 # ── SEO Y LLMS ──
 seo_title: "Playwright MCP: controla el navegador con IA gratis"
