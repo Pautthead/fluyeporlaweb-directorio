@@ -1,0 +1,93 @@
+---
+import Base from '../../layouts/Base.astro';
+---
+
+<Base
+  title="Términos de uso - fluyeporlaweb"
+  description="Términos de uso de fluyeporlaweb.com. Condiciones de uso del directorio de herramientas open source."
+>
+  <div class="legal-page container">
+    <header class="legal-header">
+      <h1>Términos de uso</h1>
+      <p class="legal-date">Última actualización: junio 2026</p>
+    </header>
+
+    <div class="prose">
+      <p>
+        Al usar fluyeporlaweb.com aceptas los siguientes términos.
+        Si no estás de acuerdo, deja de usar el sitio.
+      </p>
+
+      <h2>Uso del directorio</h2>
+
+      <p>
+        El directorio es de uso libre para consulta personal y profesional.
+        Puedes enlazar al directorio o a páginas concretas sin pedir permiso.
+        No puedes copiar el contenido completo del directorio para crear un sitio competidor.
+      </p>
+
+      <h2>Exactitud del contenido</h2>
+
+      <p>
+        Intentamos que la información sea correcta y actualizada, pero no garantizamos que lo sea siempre.
+        Los datos de stars, forks y versiones se actualizan automáticamente desde GitHub pero pueden
+        tener un retraso de hasta 7 días.
+        Las guías de instalación se verifican manualmente pero las herramientas evolucionan.
+        Si encuentras un error, escríbenos.
+      </p>
+
+      <h2>Envío de herramientas</h2>
+
+      <p>
+        Al enviar una herramienta declaras que tienes derecho a compartir esa información
+        y que los datos son correctos.
+        Nos reservamos el derecho de rechazar cualquier envío sin dar explicaciones.
+        Una herramienta publicada puede ser eliminada si deja de cumplir los criterios del directorio.
+      </p>
+
+      <h2>Exención de responsabilidad</h2>
+
+      <p>
+        Las herramientas listadas son proyectos de terceros.
+        No somos responsables de lo que hagas con ellas ni de los daños que puedan causar.
+        Verifica siempre la licencia de cada herramienta antes de usarla en producción.
+      </p>
+
+      <h2>Cambios en los términos</h2>
+
+      <p>
+        Podemos actualizar estos términos en cualquier momento.
+        La fecha de actualización en la cabecera indica la versión vigente.
+      </p>
+
+      <h2>Contacto</h2>
+
+      <p>
+        Dudas o reclamaciones: <a href="mailto:fluyeporlaweb@gmail.com">fluyeporlaweb@gmail.com</a>.
+      </p>
+    </div>
+  </div>
+</Base>
+
+<style>
+  .legal-page {
+    padding-top: var(--space-8);
+    padding-bottom: var(--space-16);
+    max-width: 760px;
+  }
+
+  .legal-header {
+    margin-bottom: var(--space-8);
+  }
+
+  .legal-header h1 {
+    font-size: var(--text-3xl);
+    letter-spacing: -0.02em;
+    margin-bottom: var(--space-2);
+  }
+
+  .legal-date {
+    font-size: var(--text-sm);
+    color: var(--color-text-3);
+  }
+</style>

@@ -1,0 +1,58 @@
+---
+import Categoria from '../../../layouts/Categoria.astro';
+import { getCollection } from 'astro:content';
+
+export async function getStaticPaths() {
+  const allTools = await getCollection('herramientas');
+  const categories = ['mcp', 'repos', 'apis', 'saas-alternativas', 'apps'] as const;
+
+  const categoryMeta: Record<string, { label: string; description: string }> = {
+    mcp: {
+      label: 'MCPs',
+      description: 'Servidores Model Context Protocol: conecta tus agentes de IA con herramientas del mundo real. Instalación guiada, casos de uso reales y alternativas de pago que sustituyen.',
+    },
+    repos: {
+      label: 'Repositorios',
+      description: 'Proyectos open source para instalar en tu propio servidor. Control total de tus datos sin pagar suscripciones mensuales.',
+    },
+    apis: {
+      label: 'APIs',
+      description: 'Interfaces de programación gratuitas o con plan free generoso. Integra servicios sin depender de una sola empresa.',
+    },
+    'saas-alternativas': {
+      label: 'Alternativas SaaS',
+      description: 'Herramientas open source que hacen exactamente lo mismo que los SaaS de pago. Con comparativa de precios y guía de migración.',
+    },
+    apps: {
+      label: 'Apps',
+      description: 'Aplicaciones listas para usar, sin suscripción. Instálalas o úsalas en el navegador.',
+    },
+  };
+
+  const toolsByCategory = allTools.reduce<Record<string, typeof allTools>>((acc, tool) => {
+    const cat = tool.data.category;
+    if (!acc[cat]) acc[cat] = [];
+    acc[cat].push(tool);
+    return acc;
+  }, {});
+
+  return categories.map(categoria => ({
+    params: { categoria },
+    props: {
+      label: categoryMeta[categoria].label,
+      description: categoryMeta[categoria].description,
+      tools: (toolsByCategory[categoria] ?? []).filter(t => t.data.status === 'activo'),
+    },
+  }));
+}
+
+const { categoria } = Astro.params;
+const { label, description, tools } = Astro.props;
+---
+
+<Categoria
+  categoria={categoria}
+  label={label}
+  description={description}
+  tools={tools}
+/>

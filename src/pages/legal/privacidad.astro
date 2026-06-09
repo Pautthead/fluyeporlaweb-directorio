@@ -1,0 +1,87 @@
+---
+import Base from '../../layouts/Base.astro';
+---
+
+<Base
+  title="Política de privacidad - fluyeporlaweb"
+  description="Política de privacidad de fluyeporlaweb.com. Qué datos recogemos, cómo los usamos y tus derechos."
+>
+  <div class="legal-page container">
+    <header class="legal-header">
+      <h1>Política de privacidad</h1>
+      <p class="legal-date">Última actualización: junio 2026</p>
+    </header>
+
+    <div class="prose">
+      <p>
+        Esta política describe qué información recoge fluyeporlaweb.com, cómo la usa y qué derechos tienes sobre ella.
+        Si tienes dudas, escríbenos a <a href="mailto:fluyeporlaweb@gmail.com">fluyeporlaweb@gmail.com</a>.
+      </p>
+
+      <h2>Qué datos recogemos</h2>
+
+      <p>
+        Este sitio es estático y no tiene cuentas de usuario ni formularios de registro.
+        Los datos que se pueden recoger son los siguientes:
+      </p>
+
+      <ul>
+        <li><strong>Analítica web:</strong> usamos Google Analytics 4 para medir el tráfico de forma anonimizada. Se recoge la página visitada, el país de origen aproximado y el tipo de dispositivo. No se recogen datos personales identificables.</li>
+        <li><strong>Formulario de envío:</strong> si envías una herramienta, recogemos el nombre de la herramienta, la URL de GitHub, la categoría, tu descripción opcional y tu email si lo proporcionas voluntariamente para recibir notificaciones.</li>
+        <li><strong>Publicidad:</strong> una vez activo AdSense, Google puede usar cookies de publicidad. Puedes gestionarlas desde el panel de cookies.</li>
+      </ul>
+
+      <h2>Para qué usamos los datos</h2>
+
+      <ul>
+        <li>Mejorar el contenido del directorio en base al tráfico.</li>
+        <li>Revisar y publicar herramientas enviadas por la comunidad.</li>
+        <li>Notificarte (si dejaste email) si tu herramienta se publica.</li>
+      </ul>
+
+      <h2>Con quién compartimos datos</h2>
+
+      <p>
+        No vendemos datos a terceros. Los datos de analítica se procesan por Google Analytics 4
+        conforme a su política de privacidad. El formulario de envío crea una Pull Request en
+        GitHub público - los datos del envío (sin tu email) serán visibles en el repositorio.
+      </p>
+
+      <h2>Tus derechos</h2>
+
+      <p>
+        Tienes derecho a acceder, rectificar y suprimir tus datos.
+        Para ejercer estos derechos, escríbenos a <a href="mailto:fluyeporlaweb@gmail.com">fluyeporlaweb@gmail.com</a>.
+      </p>
+
+      <h2>Cookies</h2>
+
+      <p>
+        Consulta nuestra <a href="/legal/cookies">política de cookies</a> para más detalle.
+      </p>
+    </div>
+  </div>
+</Base>
+
+<style>
+  .legal-page {
+    padding-top: var(--space-8);
+    padding-bottom: var(--space-16);
+    max-width: 760px;
+  }
+
+  .legal-header {
+    margin-bottom: var(--space-8);
+  }
+
+  .legal-header h1 {
+    font-size: var(--text-3xl);
+    letter-spacing: -0.02em;
+    margin-bottom: var(--space-2);
+  }
+
+  .legal-date {
+    font-size: var(--text-sm);
+    color: var(--color-text-3);
+  }
+</style>

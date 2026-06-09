@@ -1,0 +1,138 @@
+---
+import Base from '../../layouts/Base.astro';
+import HerramientaCard from '../../components/HerramientaCard.astro';
+import Buscador from '../../components/Buscador.astro';
+import AdSlot from '../../components/AdSlot.astro';
+import { getCollection } from 'astro:content';
+
+const allTools = await getCollection('herramientas', (e) => e.data.status === 'activo');
+
+const byCategory = allTools.reduce<Record<string, typeof allTools>>((acc, tool) => {
+  const cat = tool.data.category;
+  if (!acc[cat]) acc[cat] = [];
+  acc[cat].push(tool);
+  return acc;
+}, {});
+
+const categoryMeta: Record<string, { label: string; desc: string }> = {
+  mcp:               { label: 'MCPs',              desc: 'Servidores Model Context Protocol' },
+  repos:             { label: 'Repositorios',       desc: 'Proyectos para instalar y autoalojar' },
+  apis:              { label: 'APIs',               desc: 'Interfaces de programación gratuitas' },
+  'saas-alternativas': { label: 'Alternativas SaaS', desc: 'Reemplazos open source a servicios de pago' },
+  apps:              { label: 'Apps',               desc: 'Aplicaciones listas para usar' },
+};
+
+const order = ['mcp', 'repos', 'apis', 'saas-alternativas', 'apps'];
+---
+
+<Base
+  title="Directorio de herramientas open source en español"
+  description="Explora el directorio completo de herramientas open source en español. MCPs, repositorios, APIs, alternativas SaaS y apps. Con guías de instalación reales."
+>
+  <div class="directorio-page container">
+    <header class="directorio-header">
+      <h1 class="directorio-header__title">Directorio</h1>
+      <p class="directorio-header__desc">
+        {allTools.length} herramientas indexadas. Instalación real, contexto en español, sin hype.
+      </p>
+      <div class="directorio-header__search">
+        <Buscador />
+      </div>
+    </header>
+
+    {order.map(cat => {
+      const tools = byCategory[cat] ?? [];
+      if (tools.length === 0) return null;
+      const meta = categoryMeta[cat];
+      return (
+        <section class="cat-section" aria-labelledby={`cat-${cat}`}>
+          <div class="cat-section__header">
+            <div>
+              <h2 id={`cat-${cat}`} class="cat-section__title">
+                <a href={`/directorio/${cat}`}>{meta.label}</a>
+              </h2>
+              <p class="cat-section__desc">{meta.desc}</p>
+            </div>
+            {tools.length > 3 && (
+              <a href={`/directorio/${cat}`} class="cat-section__link">
+                Ver los {tools.length}
+              </a>
+            )}
+          </div>
+          <div class="tools-grid">
+            {tools.slice(0, 3).map(tool => <HerramientaCard tool={tool} />)}
+          </div>
+        </section>
+      );
+    })}
+
+    <AdSlot slot="footer" />
+  </div>
+</Base>
+
+<style>
+  .directorio-page {
+    padding-top: var(--space-8);
+    padding-bottom: var(--space-16);
+  }
+
+  .directorio-header {
+    margin-bottom: var(--space-12);
+  }
+
+  .directorio-header__title {
+    font-size: var(--text-4xl);
+    letter-spacing: -0.02em;
+    margin-bottom: var(--space-3);
+  }
+
+  .directorio-header__desc {
+    font-size: var(--text-lg);
+    color: var(--color-text-2);
+    margin-bottom: var(--space-6);
+  }
+
+  .directorio-header__search {
+    max-width: 480px;
+  }
+
+  .cat-section {
+    margin-bottom: var(--space-12);
+  }
+
+  .cat-section__header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: var(--space-4);
+    margin-bottom: var(--space-4);
+    flex-wrap: wrap;
+  }
+
+  .cat-section__title {
+    font-size: var(--text-2xl);
+    letter-spacing: -0.02em;
+    margin-bottom: var(--space-1);
+  }
+
+  .cat-section__title a {
+    color: var(--color-text);
+    text-decoration: none;
+  }
+
+  .cat-section__title a:hover {
+    color: var(--color-brand);
+  }
+
+  .cat-section__desc {
+    font-size: var(--text-sm);
+    color: var(--color-text-2);
+  }
+
+  .cat-section__link {
+    font-size: var(--text-sm);
+    font-weight: 500;
+    color: var(--color-brand);
+    white-space: nowrap;
+  }
+</style>

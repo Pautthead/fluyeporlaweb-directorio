@@ -1,0 +1,38 @@
+---
+interface Props {
+  slot?: 'sidebar' | 'inline' | 'footer';
+}
+const { slot: position = 'inline' } = Astro.props;
+---
+
+<div class={`ad-slot ad-slot--${position}`} aria-hidden="true">
+  <span class="ad-slot__label">Publicidad</span>
+</div>
+
+<style>
+  .ad-slot {
+    background: var(--color-bg-2);
+    border: 1px dashed var(--color-border-2);
+    border-radius: var(--radius);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-text-3);
+    font-size: var(--text-xs);
+  }
+
+  .ad-slot--sidebar {
+    min-height: 250px;
+    width: 100%;
+  }
+
+  .ad-slot--inline {
+    min-height: 90px;
+    width: 100%;
+  }
+
+  .ad-slot--footer {
+    min-height: 90px;
+    width: 100%;
+  }
+</style>

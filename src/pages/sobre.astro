@@ -1,0 +1,91 @@
+---
+import Base from '../layouts/Base.astro';
+---
+
+<Base
+  title="Sobre fluyeporlaweb"
+  description="Qué es fluyeporlaweb, por qué existe el directorio de herramientas open source en español y quién está detrás."
+>
+  <div class="sobre-page container">
+    <header class="sobre-header">
+      <h1>Sobre fluyeporlaweb</h1>
+    </header>
+
+    <div class="prose sobre-content">
+      <h2>Qué es esto</h2>
+
+      <p>
+        El directorio de herramientas open source más grande en español.
+        No una lista de GitHub copiada con traductor automático.
+        Contexto real: por qué importa cada herramienta, cómo se instala de verdad,
+        qué alternativa de pago sustituye y qué no hace bien.
+      </p>
+
+      <p>
+        El público objetivo es gente que construye cosas: developers, diseñadores, marketers,
+        makers. Gente que busca herramientas útiles y no quiere leer el README en inglés
+        para enterarse de qué hace exactamente.
+      </p>
+
+      <h2>Por qué existe</h2>
+
+      <p>
+        Cero competencia seria en español para herramientas open source y MCPs.
+        ChatGPT, Perplexity, Claude y Gemini responden preguntas sobre herramientas
+        citando lo que encuentran. Si el único contenido en español es genérico,
+        las respuestas en español son genéricas.
+      </p>
+
+      <p>
+        Este directorio responde preguntas completas que nadie responde en español hoy.
+        Eso es SEO orgánico y presencia en LLMs al mismo tiempo.
+      </p>
+
+      <h2>El modelo</h2>
+
+      <p>
+        Abierto en GitHub. Submissions gratuitas. El directorio se autofinancia con
+        publicidad contextual (AdSense, sin pop-ups ni Monetag) y con afiliados directos
+        en las herramientas donde tiene sentido.
+      </p>
+
+      <p>
+        Nada de listings de pago hasta que haya tráfico real que los justifique.
+        La credibilidad no se compra, se construye con contenido útil.
+      </p>
+
+      <h2>Quién está detrás</h2>
+
+      <p>
+        Pablo. <a href="https://x.com/fluyeporlaweb" target="_blank" rel="noopener noreferrer">@fluyeporlaweb en X</a>.
+        Developer, maker, escribo sobre herramientas y automatización.
+        Tengo mi propio MCP publicado, así que empezamos por lo que conozco bien.
+      </p>
+
+      <h2>Contribuir</h2>
+
+      <p>
+        El repositorio es público en GitHub. Puedes enviar herramientas desde
+        <a href="/enviar">la página de envío</a> o abrir una PR directamente.
+        Revisamos todo antes de publicar.
+      </p>
+    </div>
+  </div>
+</Base>
+
+<style>
+  .sobre-page {
+    padding-top: var(--space-8);
+    padding-bottom: var(--space-16);
+    max-width: 760px;
+  }
+
+  .sobre-header {
+    margin-bottom: var(--space-8);
+  }
+
+  .sobre-header h1 {
+    font-size: var(--text-4xl);
+    letter-spacing: -0.02em;
+  }
+</style>

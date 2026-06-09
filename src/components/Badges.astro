@@ -1,0 +1,115 @@
+---
+interface Props {
+  license: string;
+  pricing: 'gratis' | 'freemium' | 'pago';
+  stars?: number;
+  install_complexity: 'fácil' | 'medio' | 'avanzado';
+  status: 'activo' | 'inactivo' | 'verificar';
+  language?: string;
+}
+
+const { license, pricing, stars, install_complexity, status, language } = Astro.props;
+
+const pricingColor: Record<string, string> = {
+  gratis: 'green',
+  freemium: 'blue',
+  pago: 'gray',
+};
+
+const complexityColor: Record<string, string> = {
+  fácil: 'green',
+  medio: 'yellow',
+  avanzado: 'red',
+};
+
+const statusColor: Record<string, string> = {
+  activo: 'green',
+  inactivo: 'gray',
+  verificar: 'yellow',
+};
+
+function formatStars(n: number): string {
+  if (n >= 1000) return `${(n / 1000).toFixed(1)}k`;
+  return String(n);
+}
+---
+
+<div class="badges">
+  <span class={`badge badge--${pricingColor[pricing]}`}>{pricing}</span>
+  <span class="badge badge--gray">{license}</span>
+  <span class={`badge badge--${complexityColor[install_complexity]}`}>
+    instalación {install_complexity}
+  </span>
+  {stars !== undefined && stars > 0 && (
+    <span class="badge badge--gray" title="Estrellas en GitHub">
+      ★ {formatStars(stars)}
+    </span>
+  )}
+  {language && (
+    <span class="badge badge--gray">{language}</span>
+  )}
+  {status !== 'activo' && (
+    <span class={`badge badge--${statusColor[status]}`}>{status}</span>
+  )}
+</div>
+
+<style>
+  .badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    align-items: center;
+  }
+
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.2em 0.6em;
+    font-size: var(--text-xs);
+    font-weight: 600;
+    border-radius: var(--radius-sm);
+    white-space: nowrap;
+    text-transform: lowercase;
+    letter-spacing: 0.01em;
+  }
+
+  .badge--green {
+    background: var(--color-brand-muted);
+    color: var(--color-brand-dark);
+  }
+
+  .badge--blue {
+    background: #dbeafe;
+    color: #1d4ed8;
+  }
+
+  .badge--yellow {
+    background: #fef9c3;
+    color: #854d0e;
+  }
+
+  .badge--red {
+    background: #fee2e2;
+    color: #991b1b;
+  }
+
+  .badge--gray {
+    background: var(--color-bg-3);
+    color: var(--color-text-2);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    .badge--blue {
+      background: #1e3a5f;
+      color: #93c5fd;
+    }
+    .badge--yellow {
+      background: #422006;
+      color: #fcd34d;
+    }
+    .badge--red {
+      background: #450a0a;
+      color: #fca5a5;
+    }
+  }
+</style>

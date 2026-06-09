@@ -1,0 +1,73 @@
+---
+import '../styles/tokens.css';
+
+interface Props {
+  title: string;
+  description: string;
+  canonical?: string;
+  jsonLd?: object | object[];
+  ogImage?: string;
+}
+
+const { title, description, canonical, jsonLd, ogImage } = Astro.props;
+const canonicalURL = canonical ?? new URL(Astro.url.pathname, Astro.site).href;
+const fullTitle = title.includes('fluyeporlaweb') ? title : `${title} - fluyeporlaweb`;
+---
+
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalURL} />
+
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonicalURL} />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="fluyeporlaweb" />
+    {ogImage && <meta property="og:image" content={ogImage} />}
+
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:site" content="@fluyeporlaweb" />
+    <meta name="twitter:title" content={fullTitle} />
+    <meta name="twitter:description" content={description} />
+
+    {jsonLd && (
+      <script type="application/ld+json" set:html={JSON.stringify(Array.isArray(jsonLd) ? jsonLd : [jsonLd])} />
+    )}
+
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  </head>
+  <body>
+    <header class="site-header">
+      <nav class="site-nav">
+        <a href="/" class="site-logo">fluyeporlaweb</a>
+        <ul class="nav-links">
+          <li><a href="/directorio">Directorio</a></li>
+          <li><a href="/blog">Blog</a></li>
+          <li class="nav-cta"><a href="/enviar">Enviar herramienta</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <main>
+      <slot />
+    </main>
+
+    <footer class="site-footer">
+      <div class="footer-inner">
+        <nav class="footer-links" aria-label="Navegación legal">
+          <a href="/legal/privacidad">Privacidad</a>
+          <a href="/legal/cookies">Cookies</a>
+          <a href="/legal/terminos">Términos</a>
+          <a href="/legal/contacto">Contacto</a>
+          <a href="/sobre">Sobre</a>
+        </nav>
+        <p class="footer-copy">© {new Date().getFullYear()} fluyeporlaweb</p>
+      </div>
+    </footer>
+  </body>
+</html>

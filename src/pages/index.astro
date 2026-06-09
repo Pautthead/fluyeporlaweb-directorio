@@ -1,0 +1,287 @@
+---
+import Base from '../layouts/Base.astro';
+import HerramientaCard from '../components/HerramientaCard.astro';
+import Buscador from '../components/Buscador.astro';
+import AdSlot from '../components/AdSlot.astro';
+import { getCollection } from 'astro:content';
+
+const allTools = await getCollection('herramientas', (e) => e.data.status === 'activo');
+const featured = allTools.filter(t => t.data.featured).slice(0, 6);
+const recent = allTools.sort((a, b) =>
+  b.data.date_added.localeCompare(a.data.date_added)
+).slice(0, 6);
+
+const categories = [
+  { slug: 'mcp', label: 'MCPs', desc: 'Model Context Protocol - conecta IA con herramientas reales', icon: '⚡' },
+  { slug: 'repos', label: 'Repositorios', desc: 'Proyectos open source para instalar y autoalojar', icon: '📦' },
+  { slug: 'apis', label: 'APIs', desc: 'Interfaces para conectar servicios sin pagar por ellas', icon: '🔌' },
+  { slug: 'saas-alternativas', label: 'Alternativas SaaS', desc: 'Lo mismo que pagas, pero gratis y en tu servidor', icon: '💸' },
+  { slug: 'apps', label: 'Apps', desc: 'Aplicaciones listas para usar, sin suscripción', icon: '🛠️' },
+];
+
+const totalTools = allTools.length;
+---
+
+<Base
+  title="fluyeporlaweb - Directorio de herramientas open source en español"
+  description="El directorio de herramientas open source más grande en español. MCPs, repos, APIs y alternativas a SaaS de pago. Para developers, diseñadores y makers."
+>
+  <section class="hero">
+    <div class="container">
+      <div class="hero__inner">
+        <h1 class="hero__title">
+          Herramientas open source en español.
+          <span class="hero__accent">De verdad.</span>
+        </h1>
+        <p class="hero__sub">
+          No una lista de GitHub. Contexto real: por qué importa cada herramienta, cómo se instala,
+          qué alternativa de pago sustituye y cuánto te ahorras.
+        </p>
+        <div class="hero__search">
+          <Buscador />
+        </div>
+        {totalTools > 0 && (
+          <p class="hero__count">
+            {totalTools} {totalTools === 1 ? 'herramienta' : 'herramientas'} indexadas.
+            <a href="/directorio">Ver todas</a>
+          </p>
+        )}
+      </div>
+    </div>
+  </section>
+
+  <section class="categories">
+    <div class="container">
+      <h2 class="section-title">Explorar por categoría</h2>
+      <div class="categories__grid">
+        {categories.map(cat => (
+          <a href={`/directorio/${cat.slug}`} class="cat-card">
+            <span class="cat-card__icon" aria-hidden="true">{cat.icon}</span>
+            <div>
+              <strong class="cat-card__label">{cat.label}</strong>
+              <p class="cat-card__desc">{cat.desc}</p>
+            </div>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  {featured.length > 0 && (
+    <section class="featured">
+      <div class="container">
+        <h2 class="section-title">Herramientas destacadas</h2>
+        <div class="tools-grid">
+          {featured.map(tool => <HerramientaCard tool={tool} />)}
+        </div>
+      </div>
+    </section>
+  )}
+
+  <div class="container">
+    <AdSlot slot="inline" />
+  </div>
+
+  {recent.length > 0 && (
+    <section class="recent">
+      <div class="container">
+        <div class="section-header">
+          <h2 class="section-title">Añadidas recientemente</h2>
+          <a href="/directorio" class="section-link">Ver todo el directorio</a>
+        </div>
+        <div class="tools-grid">
+          {recent.map(tool => <HerramientaCard tool={tool} />)}
+        </div>
+      </div>
+    </section>
+  )}
+
+  <section class="about-strip">
+    <div class="container">
+      <div class="about-strip__inner">
+        <div>
+          <h2 class="about-strip__title">¿Tienes una herramienta para añadir?</h2>
+          <p class="about-strip__text">
+            El directorio es abierto. Si usas algo que vale la pena y no está aquí, mándalo.
+            Revisamos cada envío antes de publicar.
+          </p>
+        </div>
+        <a href="/enviar" class="btn-primary">Enviar herramienta</a>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .hero {
+    background: linear-gradient(to bottom, var(--color-brand-muted), var(--color-bg));
+    padding: var(--space-16) 0 var(--space-12);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    .hero {
+      background: linear-gradient(to bottom, var(--color-brand-muted), var(--color-bg));
+    }
+  }
+
+  .hero__inner {
+    max-width: 680px;
+  }
+
+  .hero__title {
+    font-size: clamp(var(--text-3xl), 5vw, var(--text-4xl));
+    letter-spacing: -0.03em;
+    line-height: 1.1;
+    margin-bottom: var(--space-4);
+    color: var(--color-text);
+  }
+
+  .hero__accent {
+    color: var(--color-brand);
+    display: block;
+  }
+
+  .hero__sub {
+    font-size: var(--text-lg);
+    color: var(--color-text-2);
+    margin-bottom: var(--space-6);
+    line-height: 1.6;
+    max-width: 55ch;
+  }
+
+  .hero__search {
+    margin-bottom: var(--space-4);
+  }
+
+  .hero__count {
+    font-size: var(--text-sm);
+    color: var(--color-text-3);
+  }
+
+  .categories {
+    padding: var(--space-12) 0;
+    background: var(--color-bg-2);
+  }
+
+  .categories__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: var(--space-3);
+    margin-top: var(--space-6);
+  }
+
+  .cat-card {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-3);
+    padding: var(--space-4);
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    text-decoration: none !important;
+    color: inherit;
+    transition: border-color 0.15s, box-shadow 0.15s;
+  }
+
+  .cat-card:hover {
+    border-color: var(--color-brand);
+    box-shadow: var(--shadow);
+  }
+
+  .cat-card__icon {
+    font-size: var(--text-2xl);
+    line-height: 1;
+    flex-shrink: 0;
+  }
+
+  .cat-card__label {
+    display: block;
+    font-size: var(--text-base);
+    font-weight: 700;
+    color: var(--color-text);
+    margin-bottom: var(--space-1);
+  }
+
+  .cat-card__desc {
+    font-size: var(--text-sm);
+    color: var(--color-text-2);
+    line-height: 1.4;
+  }
+
+  .featured,
+  .recent {
+    padding: var(--space-12) 0;
+  }
+
+  .section-title {
+    font-size: var(--text-2xl);
+    letter-spacing: -0.02em;
+    margin-bottom: var(--space-6);
+  }
+
+  .section-header {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    margin-bottom: var(--space-6);
+    gap: var(--space-4);
+    flex-wrap: wrap;
+  }
+
+  .section-header .section-title {
+    margin-bottom: 0;
+  }
+
+  .section-link {
+    font-size: var(--text-sm);
+    color: var(--color-brand);
+    font-weight: 500;
+    white-space: nowrap;
+  }
+
+  .about-strip {
+    background: var(--color-bg-2);
+    border-top: 1px solid var(--color-border);
+    padding: var(--space-12) 0;
+    margin-top: var(--space-8);
+  }
+
+  .about-strip__inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-8);
+    flex-wrap: wrap;
+  }
+
+  .about-strip__title {
+    font-size: var(--text-xl);
+    margin-bottom: var(--space-2);
+  }
+
+  .about-strip__text {
+    font-size: var(--text-base);
+    color: var(--color-text-2);
+    max-width: 50ch;
+    line-height: 1.6;
+  }
+
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    padding: var(--space-3) var(--space-6);
+    background: var(--color-brand);
+    color: white !important;
+    border-radius: var(--radius);
+    font-weight: 600;
+    font-size: var(--text-sm);
+    text-decoration: none !important;
+    transition: background 0.15s;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  .btn-primary:hover {
+    background: var(--color-brand-dark);
+  }
+</style>

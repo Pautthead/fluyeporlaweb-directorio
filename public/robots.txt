@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://fluyeporlaweb.com/sitemap-index.xml

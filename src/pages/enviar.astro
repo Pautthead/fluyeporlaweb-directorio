@@ -1,0 +1,296 @@
+---
+import Base from '../layouts/Base.astro';
+---
+
+<Base
+  title="Enviar herramienta - fluyeporlaweb"
+  description="Envía una herramienta open source al directorio de fluyeporlaweb. Revisamos cada envío antes de publicar."
+>
+  <div class="enviar-page container">
+    <header class="enviar-header">
+      <h1 class="enviar-header__title">Enviar una herramienta</h1>
+      <p class="enviar-header__desc">
+        El directorio es abierto. Si usas algo que vale la pena y no está aquí, mándalo.
+        Revisamos cada envío antes de publicar - no mergea solo.
+      </p>
+    </header>
+
+    <div class="enviar-layout">
+      <div class="enviar-form-wrap">
+        <form
+          class="enviar-form"
+          id="submit-form"
+          method="POST"
+          action="/api/submit"
+          novalidate
+        >
+          <div class="form-group">
+            <label for="name" class="form-label">Nombre de la herramienta <span aria-hidden="true">*</span></label>
+            <input
+              type="text"
+              id="name"
+              name="name"
+              class="form-input"
+              placeholder="Ej: Playwright MCP"
+              required
+              maxlength="80"
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="github_url" class="form-label">URL de GitHub <span aria-hidden="true">*</span></label>
+            <input
+              type="url"
+              id="github_url"
+              name="github_url"
+              class="form-input"
+              placeholder="https://github.com/usuario/repo"
+              required
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="category" class="form-label">Categoría <span aria-hidden="true">*</span></label>
+            <select id="category" name="category" class="form-input" required>
+              <option value="">Elige una categoría</option>
+              <option value="mcp">MCP (Model Context Protocol)</option>
+              <option value="repos">Repositorio / app para autoalojar</option>
+              <option value="apis">API con plan gratuito</option>
+              <option value="saas-alternativas">Alternativa a SaaS de pago</option>
+              <option value="apps">App lista para usar</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="tagline" class="form-label">¿Qué hace en una frase? <span aria-hidden="true">*</span></label>
+            <input
+              type="text"
+              id="tagline"
+              name="tagline"
+              class="form-input"
+              placeholder="Una frase corta, sin hype"
+              required
+              maxlength="120"
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="replaces" class="form-label">¿A qué herramienta de pago sustituye?</label>
+            <input
+              type="text"
+              id="replaces"
+              name="replaces"
+              class="form-input"
+              placeholder="Ej: BrowserStack, Selenium Grid"
+            />
+            <p class="form-hint">Separadas por coma. Este campo es lo que más valor aporta.</p>
+          </div>
+
+          <div class="form-group">
+            <label for="why" class="form-label">¿Por qué merece estar en el directorio?</label>
+            <textarea
+              id="why"
+              name="why"
+              class="form-input form-textarea"
+              placeholder="Cuéntanos brevemente por qué es útil y para quién..."
+              rows="4"
+              maxlength="500"
+            ></textarea>
+          </div>
+
+          <div class="form-group">
+            <label for="email" class="form-label">Tu email (opcional, para avisarte si se publica)</label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              class="form-input"
+              placeholder="hola@ejemplo.com"
+            />
+          </div>
+
+          <button type="submit" class="btn-submit">Enviar para revisión</button>
+
+          <p class="form-note">
+            No se publica automáticamente. Pablo revisa cada envío antes de mergearlo.
+            Sin spam, sin afiliados forzados.
+          </p>
+        </form>
+      </div>
+
+      <aside class="enviar-info">
+        <h2 class="enviar-info__title">Lo que buscamos</h2>
+        <ul class="enviar-info__list">
+          <li>Open source (licencia permisiva o copyleft)</li>
+          <li>Útil para developers, diseñadores o makers</li>
+          <li>Activamente mantenido (commits recientes)</li>
+          <li>Que sustituya algo de pago o resuelva un problema real</li>
+        </ul>
+
+        <h2 class="enviar-info__title" style="margin-top: var(--space-6)">Lo que no aceptamos</h2>
+        <ul class="enviar-info__list enviar-info__list--no">
+          <li>Freeware que no es open source</li>
+          <li>Proyectos abandonados sin comunidad activa</li>
+          <li>Herramientas que solo sirven para spam o scraping agresivo</li>
+          <li>Productos de pago con "plan gratuito" de chiste</li>
+        </ul>
+      </aside>
+    </div>
+  </div>
+</Base>
+
+<style>
+  .enviar-page {
+    padding-top: var(--space-8);
+    padding-bottom: var(--space-16);
+  }
+
+  .enviar-header {
+    max-width: 60ch;
+    margin-bottom: var(--space-10);
+  }
+
+  .enviar-header__title {
+    font-size: var(--text-4xl);
+    letter-spacing: -0.02em;
+    margin-bottom: var(--space-3);
+  }
+
+  .enviar-header__desc {
+    font-size: var(--text-lg);
+    color: var(--color-text-2);
+    line-height: 1.6;
+  }
+
+  .enviar-layout {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-10);
+  }
+
+  @media (min-width: 900px) {
+    .enviar-layout {
+      grid-template-columns: 1fr 300px;
+      align-items: start;
+    }
+  }
+
+  .enviar-form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-5);
+  }
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+
+  .form-label {
+    font-size: var(--text-sm);
+    font-weight: 600;
+    color: var(--color-text);
+  }
+
+  .form-label span {
+    color: var(--color-brand);
+  }
+
+  .form-input {
+    padding: var(--space-3) var(--space-4);
+    border: 1px solid var(--color-border-2);
+    border-radius: var(--radius);
+    background: var(--color-bg);
+    color: var(--color-text);
+    font-family: var(--font-sans);
+    font-size: var(--text-base);
+    width: 100%;
+    transition: border-color 0.15s;
+  }
+
+  .form-input:focus {
+    outline: none;
+    border-color: var(--color-brand);
+    box-shadow: 0 0 0 3px rgb(22 163 74 / 0.15);
+  }
+
+  .form-textarea {
+    resize: vertical;
+    min-height: 100px;
+  }
+
+  .form-hint {
+    font-size: var(--text-xs);
+    color: var(--color-text-3);
+    line-height: 1.4;
+  }
+
+  .btn-submit {
+    padding: var(--space-3) var(--space-6);
+    background: var(--color-brand);
+    color: white;
+    border: none;
+    border-radius: var(--radius);
+    font-family: var(--font-sans);
+    font-size: var(--text-base);
+    font-weight: 600;
+    cursor: pointer;
+    align-self: flex-start;
+    transition: background 0.15s;
+  }
+
+  .btn-submit:hover {
+    background: var(--color-brand-dark);
+  }
+
+  .form-note {
+    font-size: var(--text-sm);
+    color: var(--color-text-3);
+    line-height: 1.5;
+  }
+
+  .enviar-info {
+    background: var(--color-bg-2);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    padding: var(--space-5);
+    position: sticky;
+    top: calc(56px + var(--space-6));
+  }
+
+  .enviar-info__title {
+    font-size: var(--text-base);
+    font-weight: 700;
+    margin-bottom: var(--space-3);
+  }
+
+  .enviar-info__list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+
+  .enviar-info__list li {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-2);
+    font-size: var(--text-sm);
+    color: var(--color-text-2);
+    line-height: 1.4;
+  }
+
+  .enviar-info__list li::before {
+    content: '✓';
+    color: var(--color-brand);
+    font-weight: 700;
+    flex-shrink: 0;
+    margin-top: 0.1em;
+  }
+
+  .enviar-info__list--no li::before {
+    content: '✕';
+    color: var(--color-error);
+  }
+</style>

@@ -1,0 +1,223 @@
+---
+import Base from './Base.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import Badges from '../components/Badges.astro';
+import Alternativas from '../components/Alternativas.astro';
+import Relacionadas from '../components/Relacionadas.astro';
+import AdSlot from '../components/AdSlot.astro';
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  tool: CollectionEntry<'herramientas'>;
+}
+
+const { tool } = Astro.props;
+const { data } = tool;
+const categoria = data.category;
+
+const categoryLabels: Record<string, string> = {
+  mcp: 'MCPs',
+  repos: 'Repositorios',
+  apis: 'APIs',
+  'saas-alternativas': 'Alternativas SaaS',
+  apps: 'Apps',
+};
+
+const crumbs = [
+  { label: 'Inicio', href: '/' },
+  { label: 'Directorio', href: '/directorio' },
+  { label: categoryLabels[categoria] ?? categoria, href: `/directorio/${categoria}` },
+  { label: data.name },
+];
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'SoftwareApplication',
+    name: data.name,
+    description: data.seo_description,
+    url: new URL(`/directorio/${categoria}/${data.slug}`, Astro.site).href,
+    applicationCategory: 'DeveloperApplication',
+    operatingSystem: 'Any',
+    offers: {
+      '@type': 'Offer',
+      price: data.pricing === 'gratis' ? '0' : undefined,
+      priceCurrency: 'EUR',
+    },
+  },
+];
+---
+
+<Base
+  title={data.seo_title}
+  description={data.seo_description}
+  jsonLd={jsonLd}
+>
+  <div class="tool-page container">
+    <div class="tool-page__breadcrumb">
+      <Breadcrumbs crumbs={crumbs} />
+    </div>
+
+    <div class="tool-page__layout">
+      <article class="tool-page__main">
+        <header class="tool-header">
+          <h1 class="tool-header__name">{data.name}</h1>
+          <p class="tool-header__tagline">{data.tagline}</p>
+          <div class="tool-header__badges">
+            <Badges
+              license={data.license}
+              pricing={data.pricing}
+              stars={data.stars}
+              install_complexity={data.install_complexity}
+              status={data.status}
+              language={data.language}
+            />
+          </div>
+          <div class="tool-header__links">
+            {data.github_url && (
+              <a href={data.github_url} target="_blank" rel="noopener noreferrer" class="tool-link">
+                GitHub
+              </a>
+            )}
+            {data.website_url && (
+              <a href={data.website_url} target="_blank" rel="noopener noreferrer" class="tool-link">
+                Web oficial
+              </a>
+            )}
+            {data.docs_url && (
+              <a href={data.docs_url} target="_blank" rel="noopener noreferrer" class="tool-link">
+                Documentación
+              </a>
+            )}
+          </div>
+        </header>
+
+        <div class="prose tool-page__content">
+          <slot />
+        </div>
+
+        <div class="tool-page__ad-inline">
+          <AdSlot slot="inline" />
+        </div>
+
+        <Relacionadas currentSlug={data.slug} tags={data.tags} />
+      </article>
+
+      <aside class="tool-page__sidebar">
+        <div class="sidebar-sticky">
+          <Alternativas replaces={data.replaces} replaces_cost={data.replaces_cost} />
+          <AdSlot slot="sidebar" />
+          {data.llm_context && (
+            <div class="sidebar-meta">
+              <h3 class="sidebar-meta__title">Contexto</h3>
+              <p class="sidebar-meta__text">{data.llm_context}</p>
+            </div>
+          )}
+        </div>
+      </aside>
+    </div>
+  </div>
+</Base>
+
+<style>
+  .tool-page {
+    padding-top: var(--space-8);
+    padding-bottom: var(--space-16);
+  }
+
+  .tool-page__breadcrumb {
+    margin-bottom: var(--space-6);
+  }
+
+  .tool-page__layout {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-10);
+  }
+
+  @media (min-width: 1024px) {
+    .tool-page__layout {
+      grid-template-columns: 1fr 280px;
+      align-items: start;
+    }
+  }
+
+  .tool-header {
+    margin-bottom: var(--space-10);
+  }
+
+  .tool-header__name {
+    font-size: var(--text-4xl);
+    margin-bottom: var(--space-3);
+    letter-spacing: -0.02em;
+  }
+
+  .tool-header__tagline {
+    font-size: var(--text-xl);
+    color: var(--color-text-2);
+    margin-bottom: var(--space-4);
+    line-height: 1.4;
+  }
+
+  .tool-header__badges {
+    margin-bottom: var(--space-4);
+  }
+
+  .tool-header__links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+  }
+
+  .tool-link {
+    display: inline-flex;
+    align-items: center;
+    padding: var(--space-2) var(--space-4);
+    font-size: var(--text-sm);
+    font-weight: 500;
+    border: 1px solid var(--color-border-2);
+    border-radius: var(--radius);
+    color: var(--color-text);
+    transition: border-color 0.15s, color 0.15s;
+  }
+
+  .tool-link:hover {
+    border-color: var(--color-brand);
+    color: var(--color-brand);
+    text-decoration: none;
+  }
+
+  .tool-page__ad-inline {
+    margin: var(--space-10) 0;
+  }
+
+  .sidebar-sticky {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+    position: sticky;
+    top: calc(56px + var(--space-6));
+  }
+
+  .sidebar-meta {
+    background: var(--color-bg-2);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    padding: var(--space-4);
+  }
+
+  .sidebar-meta__title {
+    font-size: var(--text-xs);
+    font-weight: 700;
+    color: var(--color-text-2);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: var(--space-2);
+  }
+
+  .sidebar-meta__text {
+    font-size: var(--text-xs);
+    color: var(--color-text-2);
+    line-height: 1.6;
+  }
+</style>

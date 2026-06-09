@@ -1,0 +1,78 @@
+---
+interface Crumb {
+  label: string;
+  href?: string;
+}
+
+interface Props {
+  crumbs: Crumb[];
+}
+
+const { crumbs } = Astro.props;
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: crumbs.map((crumb, i) => ({
+    '@type': 'ListItem',
+    position: i + 1,
+    name: crumb.label,
+    ...(crumb.href ? { item: new URL(crumb.href, Astro.site).href } : {}),
+  })),
+};
+---
+
+<nav aria-label="Breadcrumb" class="breadcrumbs">
+  <ol class="breadcrumbs__list">
+    {crumbs.map((crumb, i) => (
+      <li class="breadcrumbs__item">
+        {i > 0 && <span class="breadcrumbs__sep" aria-hidden="true">/</span>}
+        {crumb.href && i < crumbs.length - 1
+          ? <a href={crumb.href}>{crumb.label}</a>
+          : <span aria-current={i === crumbs.length - 1 ? 'page' : undefined}>{crumb.label}</span>
+        }
+      </li>
+    ))}
+  </ol>
+</nav>
+
+<script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+
+<style>
+  .breadcrumbs {
+    margin-bottom: var(--space-4);
+  }
+
+  .breadcrumbs__list {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-1);
+    list-style: none;
+    font-size: var(--text-sm);
+    color: var(--color-text-2);
+  }
+
+  .breadcrumbs__item {
+    display: flex;
+    align-items: center;
+    gap: var(--space-1);
+  }
+
+  .breadcrumbs__sep {
+    color: var(--color-text-3);
+  }
+
+  .breadcrumbs__list a {
+    color: var(--color-text-2);
+  }
+
+  .breadcrumbs__list a:hover {
+    color: var(--color-brand);
+  }
+
+  .breadcrumbs__list [aria-current="page"] {
+    color: var(--color-text);
+    font-weight: 500;
+  }
+</style>

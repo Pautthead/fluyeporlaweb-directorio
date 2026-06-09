@@ -1,0 +1,103 @@
+---
+import Badges from './Badges.astro';
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  tool: CollectionEntry<'herramientas'>;
+}
+
+const { tool } = Astro.props;
+const { data } = tool;
+const href = `/directorio/${data.category}/${data.slug}`;
+---
+
+<article class="tool-card">
+  <a href={href} class="tool-card__link" aria-label={`Ver ${data.name}`}>
+    <div class="tool-card__inner">
+      <div class="tool-card__header">
+        <h3 class="tool-card__name">{data.name}</h3>
+        {data.featured && <span class="tool-card__featured">Destacada</span>}
+      </div>
+      <p class="tool-card__tagline">{data.tagline}</p>
+      <div class="tool-card__meta">
+        <Badges
+          license={data.license}
+          pricing={data.pricing}
+          stars={data.stars}
+          install_complexity={data.install_complexity}
+          status={data.status}
+          language={data.language}
+        />
+      </div>
+      {data.replaces.length > 0 && (
+        <p class="tool-card__replaces">
+          Sustituye a {data.replaces.slice(0, 2).join(', ')}
+          {data.replaces.length > 2 ? ` y ${data.replaces.length - 2} más` : ''}
+        </p>
+      )}
+    </div>
+  </a>
+</article>
+
+<style>
+  .tool-card {
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    transition: border-color 0.15s, box-shadow 0.15s;
+  }
+
+  .tool-card:hover {
+    border-color: var(--color-brand);
+    box-shadow: var(--shadow-md);
+  }
+
+  .tool-card__link {
+    display: block;
+    text-decoration: none !important;
+    color: inherit;
+  }
+
+  .tool-card__inner {
+    padding: var(--space-5);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+
+  .tool-card__header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: var(--space-2);
+  }
+
+  .tool-card__name {
+    font-size: var(--text-lg);
+    font-weight: 700;
+    color: var(--color-text);
+    line-height: 1.2;
+  }
+
+  .tool-card__featured {
+    flex-shrink: 0;
+    font-size: var(--text-xs);
+    font-weight: 600;
+    background: var(--color-brand-muted);
+    color: var(--color-brand-dark);
+    padding: 0.15em 0.5em;
+    border-radius: var(--radius-sm);
+  }
+
+  .tool-card__tagline {
+    font-size: var(--text-sm);
+    color: var(--color-text-2);
+    line-height: 1.5;
+  }
+
+  .tool-card__replaces {
+    font-size: var(--text-xs);
+    color: var(--color-text-3);
+    margin-top: var(--space-1);
+  }
+</style>

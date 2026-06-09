@@ -1,0 +1,66 @@
+---
+import Base from '../../layouts/Base.astro';
+---
+
+<Base
+  title="Contacto - fluyeporlaweb"
+  description="Cómo contactar con fluyeporlaweb. Email, X y GitHub."
+>
+  <div class="legal-page container">
+    <header class="legal-header">
+      <h1>Contacto</h1>
+    </header>
+
+    <div class="prose">
+      <p>
+        Puedes contactarnos por estas vías:
+      </p>
+
+      <ul>
+        <li>
+          <strong>Email:</strong>
+          <a href="mailto:fluyeporlaweb@gmail.com">fluyeporlaweb@gmail.com</a>
+          - Para privacidad, errores de contenido o colaboraciones.
+        </li>
+        <li>
+          <strong>X:</strong>
+          <a href="https://x.com/fluyeporlaweb" target="_blank" rel="noopener noreferrer">@fluyeporlaweb</a>
+          - Para lo demás. DMs abiertos.
+        </li>
+        <li>
+          <strong>GitHub:</strong> abre una issue o PR en el repositorio del proyecto.
+          Es la forma más directa para sugerir cambios en el contenido.
+        </li>
+      </ul>
+
+      <p>
+        Si quieres enviar una herramienta al directorio, usa
+        <a href="/enviar">la página de envío</a> - es más rápido que el email.
+      </p>
+
+      <h2>Tiempo de respuesta</h2>
+
+      <p>
+        Email y X: intento responder en 24-48h en días laborables.
+        GitHub: depende de la complejidad del cambio, normalmente menos de una semana.
+      </p>
+    </div>
+  </div>
+</Base>
+
+<style>
+  .legal-page {
+    padding-top: var(--space-8);
+    padding-bottom: var(--space-16);
+    max-width: 760px;
+  }
+
+  .legal-header {
+    margin-bottom: var(--space-8);
+  }
+
+  .legal-header h1 {
+    font-size: var(--text-3xl);
+    letter-spacing: -0.02em;
+  }
+</style>

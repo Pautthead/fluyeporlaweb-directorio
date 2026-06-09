@@ -1,0 +1,96 @@
+# GitHub Action: actualización semanal de datos de repos
+# Ruta final en el repo: .github/workflows/update-github-data.yml
+#
+# Qué hace: recorre todos los .md de src/content/herramientas con github_url,
+# llama a la API de GitHub, actualiza stars/forks/last_commit/version y hace commit.
+# Cloudflare Pages redespliega solo al detectar el push.
+
+name: Actualizar datos de GitHub
+
+on:
+  schedule:
+    - cron: '0 4 * * 1'   # lunes 04:00 UTC
+  workflow_dispatch:        # permite lanzarlo a mano desde la pestaña Actions
+
+permissions:
+  contents: write
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Instalar dependencias
+        run: npm install gray-matter
+
+      - name: Actualizar datos
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: node scripts/fetch-github-data.mjs
+
+      - name: Commit si hay cambios
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add src/content/herramientas
+          if git diff --staged --quiet; then
+            echo "Sin cambios"
+          else
+            git commit -m "chore: actualización automática de datos de GitHub"
+            git push
+          fi
+
+# ───────────────────────────────────────────────────────────
+# El script que ejecuta (scripts/fetch-github-data.mjs):
+# ───────────────────────────────────────────────────────────
+#
+# import fs from 'node:fs';
+# import path from 'node:path';
+# import matter from 'gray-matter';
+#
+# const ROOT = 'src/content/herramientas';
+# const token = process.env.GH_TOKEN;
+#
+# function walk(dir) {
+#   return fs.readdirSync(dir, { withFileTypes: true }).flatMap(e => {
+#     const p = path.join(dir, e.name);
+#     return e.isDirectory() ? walk(p) : p.endsWith('.md') ? [p] : [];
+#   });
+# }
+#
+# async function gh(repoUrl) {
+#   const m = repoUrl.match(/github\.com\/([^/]+)\/([^/]+)/);
+#   if (!m) return null;
+#   const [, owner, repo] = m;
+#   const headers = { Authorization: `Bearer ${token}`, 'User-Agent': 'fluyeporlaweb' };
+#   const r = await fetch(`https://api.github.com/repos/${owner}/${repo.replace(/\.git$/, '')}`, { headers });
+#   if (!r.ok) return null;
+#   const d = await r.json();
+#   return {
+#     stars: d.stargazers_count,
+#     forks: d.forks_count,
+#     last_commit: d.pushed_at?.slice(0, 10),
+#     license: d.license?.spdx_id ?? undefined,
+#     language: d.language ?? undefined,
+#   };
+# }
+#
+# for (const file of walk(ROOT)) {
+#   const raw = fs.readFileSync(file, 'utf8');
+#   const { data, content } = matter(raw);
+#   if (!data.github_url) continue;
+#   const fresh = await gh(data.github_url);
+#   if (!fresh) { console.log('skip', file); continue; }
+#   Object.assign(data, fresh);
+#   fs.writeFileSync(file, matter.stringify(content, data));
+#   console.log('updated', data.slug, fresh.stars, '★');
+#   await new Promise(r => setTimeout(r, 800)); // respeta el rate limit
+# }
+#
+# NOTA: la versión (release tag) requiere un endpoint extra (/releases/latest).
+# Añádelo si lo necesitas; muchos repos no usan releases formales.

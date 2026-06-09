@@ -1,0 +1,23 @@
+---
+import HerramientaLayout from '../../../layouts/Herramienta.astro';
+import { getCollection, render } from 'astro:content';
+
+export async function getStaticPaths() {
+  const allTools = await getCollection('herramientas');
+
+  return allTools.map(tool => ({
+    params: {
+      categoria: tool.data.category,
+      slug: tool.data.slug,
+    },
+    props: { tool },
+  }));
+}
+
+const { tool } = Astro.props;
+const { Content } = await render(tool);
+---
+
+<HerramientaLayout tool={tool}>
+  <Content />
+</HerramientaLayout>

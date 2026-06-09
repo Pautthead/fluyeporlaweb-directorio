@@ -1,0 +1,113 @@
+---
+import Base from './Base.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import HerramientaCard from '../components/HerramientaCard.astro';
+import AdSlot from '../components/AdSlot.astro';
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  categoria: string;
+  label: string;
+  description: string;
+  tools: CollectionEntry<'herramientas'>[];
+}
+
+const { categoria, label, description, tools } = Astro.props;
+
+const crumbs = [
+  { label: 'Inicio', href: '/' },
+  { label: 'Directorio', href: '/directorio' },
+  { label },
+];
+---
+
+<Base
+  title={`${label} open source - Directorio fluyeporlaweb`}
+  description={description}
+>
+  <div class="categoria-page container">
+    <Breadcrumbs crumbs={crumbs} />
+
+    <header class="categoria-header">
+      <h1 class="categoria-header__title">{label}</h1>
+      <p class="categoria-header__desc">{description}</p>
+      <p class="categoria-header__count">
+        {tools.length} {tools.length === 1 ? 'herramienta' : 'herramientas'}
+      </p>
+    </header>
+
+    {tools.length > 0 ? (
+      <div class="tools-grid">
+        {tools.map(tool => <HerramientaCard tool={tool} />)}
+      </div>
+    ) : (
+      <div class="categoria-empty">
+        <p>Todavía no hay herramientas en esta categoría.</p>
+        <a href="/enviar" class="btn-primary">Enviar la primera</a>
+      </div>
+    )}
+
+    <div class="categoria-ad">
+      <AdSlot slot="footer" />
+    </div>
+  </div>
+</Base>
+
+<style>
+  .categoria-page {
+    padding-top: var(--space-8);
+    padding-bottom: var(--space-16);
+  }
+
+  .categoria-header {
+    margin-bottom: var(--space-8);
+  }
+
+  .categoria-header__title {
+    font-size: var(--text-4xl);
+    letter-spacing: -0.02em;
+    margin-bottom: var(--space-3);
+  }
+
+  .categoria-header__desc {
+    font-size: var(--text-lg);
+    color: var(--color-text-2);
+    margin-bottom: var(--space-2);
+    max-width: 60ch;
+  }
+
+  .categoria-header__count {
+    font-size: var(--text-sm);
+    color: var(--color-text-3);
+  }
+
+  .categoria-empty {
+    text-align: center;
+    padding: var(--space-16) 0;
+    color: var(--color-text-2);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-4);
+  }
+
+  .btn-primary {
+    display: inline-flex;
+    padding: var(--space-3) var(--space-6);
+    background: var(--color-brand);
+    color: white;
+    border-radius: var(--radius);
+    font-weight: 600;
+    font-size: var(--text-sm);
+    text-decoration: none !important;
+    transition: background 0.15s;
+  }
+
+  .btn-primary:hover {
+    background: var(--color-brand-dark);
+  }
+
+  .categoria-ad {
+    margin-top: var(--space-12);
+  }
+</style>

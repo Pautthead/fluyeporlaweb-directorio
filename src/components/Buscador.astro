@@ -1,0 +1,37 @@
+---
+// Solo funciona con el site construido (astro build).
+// En dev mode aparece el input pero no indexa resultados.
+---
+
+<div class="buscador-wrapper">
+  <div id="search"></div>
+</div>
+
+<link href="/pagefind/pagefind-ui.css" rel="stylesheet" />
+<script src="/pagefind/pagefind-ui.js" is:inline></script>
+<script is:inline>
+  window.addEventListener('DOMContentLoaded', () => {
+    if (typeof PagefindUI !== 'undefined') {
+      new PagefindUI({
+        element: '#search',
+        showSubResults: false,
+        translations: {
+          placeholder: 'Buscar herramientas...',
+          zero_results: 'Sin resultados para "[QUERY]"',
+          many_results: '[COUNT] resultados para "[QUERY]"',
+          one_result: '1 resultado para "[QUERY]"',
+          alt_search: 'Sin resultados para "[QUERY]". Mostrando resultados para "[ORIGINAL_QUERY]"',
+          search_suggestion: 'Sin resultados para "[QUERY]". Prueba con una de estas búsquedas:',
+          searching: 'Buscando "[QUERY]"...',
+        },
+      });
+    }
+  });
+</script>
+
+<style>
+  .buscador-wrapper {
+    width: 100%;
+    max-width: 560px;
+  }
+</style>

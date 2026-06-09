@@ -1,0 +1,129 @@
+---
+import Base from './Base.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import AdSlot from '../components/AdSlot.astro';
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  post: CollectionEntry<'blog'>;
+}
+
+const { post } = Astro.props;
+const { data } = post;
+
+const crumbs = [
+  { label: 'Inicio', href: '/' },
+  { label: 'Blog', href: '/blog' },
+  { label: data.title },
+];
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: data.title,
+  description: data.description,
+  datePublished: data.pubDate,
+  dateModified: data.updatedDate ?? data.pubDate,
+  author: {
+    '@type': 'Person',
+    name: 'Pablo',
+    url: 'https://fluyeporlaweb.com/sobre',
+  },
+  publisher: {
+    '@type': 'Organization',
+    name: 'fluyeporlaweb',
+    url: 'https://fluyeporlaweb.com',
+  },
+};
+
+const formattedDate = new Date(data.pubDate).toLocaleDateString('es-ES', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+});
+---
+
+<Base
+  title={data.title}
+  description={data.description}
+  jsonLd={jsonLd}
+>
+  <div class="articulo-page container">
+    <Breadcrumbs crumbs={crumbs} />
+
+    <article class="articulo">
+      <header class="articulo__header">
+        <div class="articulo__meta">
+          <time datetime={data.pubDate}>{formattedDate}</time>
+          {data.tags.length > 0 && (
+            <div class="articulo__tags">
+              {data.tags.map(tag => (
+                <span class="articulo__tag">{tag}</span>
+              ))}
+            </div>
+          )}
+        </div>
+        <h1 class="articulo__title">{data.title}</h1>
+        <p class="articulo__desc">{data.description}</p>
+      </header>
+
+      <div class="prose articulo__content">
+        <slot />
+      </div>
+
+      <AdSlot slot="inline" />
+    </article>
+  </div>
+</Base>
+
+<style>
+  .articulo-page {
+    padding-top: var(--space-8);
+    padding-bottom: var(--space-16);
+    max-width: 780px;
+  }
+
+  .articulo__header {
+    margin-bottom: var(--space-10);
+  }
+
+  .articulo__meta {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+    margin-bottom: var(--space-4);
+    font-size: var(--text-sm);
+    color: var(--color-text-2);
+  }
+
+  .articulo__tags {
+    display: flex;
+    gap: var(--space-2);
+    flex-wrap: wrap;
+  }
+
+  .articulo__tag {
+    padding: 0.1em 0.5em;
+    background: var(--color-bg-3);
+    border-radius: var(--radius-sm);
+    font-size: var(--text-xs);
+    color: var(--color-text-2);
+  }
+
+  .articulo__title {
+    font-size: var(--text-4xl);
+    letter-spacing: -0.02em;
+    margin-bottom: var(--space-4);
+  }
+
+  .articulo__desc {
+    font-size: var(--text-lg);
+    color: var(--color-text-2);
+    line-height: 1.5;
+  }
+
+  .articulo__content {
+    margin-bottom: var(--space-10);
+  }
+</style>
