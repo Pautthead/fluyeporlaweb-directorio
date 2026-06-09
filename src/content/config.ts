@@ -28,6 +28,9 @@ const herramientas = defineCollection({
     replaces_cost: z.string().optional(),
     install_complexity: z.enum(['fácil', 'medio', 'avanzado']),
 
+    cover_image_url: z.string().optional(),
+    cover_image_alt: z.string().optional(),
+
     seo_title: z.string().max(60),
     seo_description: z.string().max(160),
     llm_context: z.string().max(400),
