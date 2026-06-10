@@ -41,14 +41,6 @@ const fullTitle = title.includes('fluyeporlaweb') ? title : `${title} - fluyepor
 
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-KKNB7N5W3P"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-KKNB7N5W3P');
-    </script>
   </head>
   <body>
     <header class="site-header">
@@ -68,6 +60,9 @@ const fullTitle = title.includes('fluyeporlaweb') ? title : `${title} - fluyepor
 
     <footer class="site-footer">
       <div class="footer-inner">
+        <div class="footer-mobile-cta">
+          <a href="/enviar">Enviar herramienta</a>
+        </div>
         <div class="footer-top">
           <nav class="footer-links" aria-label="Navegación legal">
             <a href="/directorio">Directorio</a>
@@ -103,9 +98,14 @@ const fullTitle = title.includes('fluyeporlaweb') ? title : `${title} - fluyepor
       </div>
     </footer>
 
-    <div class="mobile-cta-bar">
-      <a href="/enviar">Enviar herramienta</a>
-    </div>
+    <!-- Google tag (gtag.js) -->
+    <script defer src="https://www.googletagmanager.com/gtag/js?id=G-KKNB7N5W3P"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-KKNB7N5W3P');
+    </script>
   </body>
 </html>
 
