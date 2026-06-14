@@ -16,7 +16,7 @@ const crumbs = [
   { label: data.title },
 ];
 
-const jsonLd = {
+const jsonLd: Record<string, unknown> = {
   '@context': 'https://schema.org',
   '@type': 'Article',
   headline: data.title,
@@ -34,6 +34,7 @@ const jsonLd = {
     url: 'https://fluyeporlaweb.com',
   },
 };
+if (data.cover_image) jsonLd.image = data.cover_image;
 
 const formattedDate = new Date(data.pubDate).toLocaleDateString('es-ES', {
   year: 'numeric',
@@ -46,6 +47,7 @@ const formattedDate = new Date(data.pubDate).toLocaleDateString('es-ES', {
   title={data.title}
   description={data.description}
   jsonLd={jsonLd}
+  ogImage={data.cover_image}
 >
   <div class="articulo-page container">
     <Breadcrumbs crumbs={crumbs} />
@@ -65,6 +67,19 @@ const formattedDate = new Date(data.pubDate).toLocaleDateString('es-ES', {
         <h1 class="articulo__title">{data.title}</h1>
         <p class="articulo__desc">{data.description}</p>
       </header>
+
+      {data.cover_image && (
+        <figure class="articulo__cover">
+          <img
+            src={data.cover_image}
+            alt={data.cover_image_alt ?? data.title}
+            width="780"
+            height="440"
+            loading="lazy"
+            decoding="async"
+          />
+        </figure>
+      )}
 
       <div class="prose articulo__content">
         <slot />
@@ -118,6 +133,17 @@ const formattedDate = new Date(data.pubDate).toLocaleDateString('es-ES', {
     font-size: var(--text-lg);
     color: var(--color-text-2);
     line-height: 1.5;
+  }
+
+  .articulo__cover {
+    margin: 0 0 var(--space-10);
+  }
+
+  .articulo__cover img {
+    width: 100%;
+    height: auto;
+    border-radius: var(--radius-md);
+    display: block;
   }
 
   .articulo__content {

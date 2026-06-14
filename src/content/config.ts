@@ -53,6 +53,8 @@ const blog = defineCollection({
     updatedDate: z.string().optional(),
     tags: z.array(z.string()).default([]),
     relatedTools: z.array(z.string()).default([]),
+    cover_image: z.string().optional(),
+    cover_image_alt: z.string().optional(),
     draft: z.boolean().default(false),
   }),
 });
